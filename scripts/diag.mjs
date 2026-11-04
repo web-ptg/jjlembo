@@ -1,17 +1,20 @@
-const PUB="https://johnjlembo.substack.com";
-const UA={"browser":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36","feedreader":"Feedly/1.0 (+http://www.feedly.com/fetcher.html; like FeedFetcher-Google)"};
+const UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36";
 const tests=[
- ["rss browser-UA",`${PUB}/feed`,{"User-Agent":UA.browser,"Accept":"application/rss+xml,application/xml,text/xml,*/*"}],
- ["rss feedreader-UA",`${PUB}/feed`,{"User-Agent":UA.feedreader}],
- ["api browser-UA",`${PUB}/api/v1/archive?sort=new&limit=5`,{"User-Agent":UA.browser,"Accept":"application/json"}],
- ["rss2json",`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(PUB+"/feed")}`,{}],
- ["allorigins",`https://api.allorigins.win/raw?url=${encodeURIComponent(PUB+"/feed")}`,{}],
- ["substack.com profile api",`https://substack.com/api/v1/publication/search?query=johnjlembo`,{"User-Agent":UA.browser}],
+ ["other substack: astralcodexten","https://astralcodexten.substack.com/feed"],
+ ["other substack: platformer","https://www.platformer.news/feed"],
+ ["john home page","https://johnjlembo.substack.com/"],
+ ["john feed","https://johnjlembo.substack.com/feed"],
+ ["rss2json msg",`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent("https://johnjlembo.substack.com/feed")}`],
+ ["rss2json other",`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent("https://astralcodexten.substack.com/feed")}`],
+ ["jina reader","https://r.jina.ai/https://johnjlembo.substack.com/feed"],
 ];
-for(const [n,u,h] of tests){
-  try{const r=await fetch(u,{headers:h});const t=await r.text();
-    const items=(t.match(/<item>/g)||[]).length; let extra='';
-    try{const j=JSON.parse(t); extra=Array.isArray(j)?`json array ${j.length}`:(j.items?`items ${j.items.length} first: ${j.items[0]?.title}`:Object.keys(j).slice(0,5).join(','));}catch{}
-    console.log(`::notice title=diag ${n}::HTTP ${r.status} rssItems=${items} ${extra} firstTitle=${(t.match(/<item>[\s\S]*?<title>(?:<!\[CDATA\[)?([^<\]]*)/)||[])[1]||''}`);
-  }catch(e){console.log(`::notice title=diag ${n}::ERR ${e.message}`)}
+for(const [n,u] of tests){
+  try{const r=await fetch(u,{headers:{"User-Agent":UA},redirect:"follow"});const t=await r.text();
+    const items=(t.match(/<item>/g)||[]).length;
+    const first=(t.match(/<item>[\s\S]*?<title>(?:<!\[CDATA\[)?([^<\]]*)/)||[])[1]||'';
+    const server=r.headers.get('server')||'', cf=r.headers.get('cf-mitigated')||'';
+    let msg='';try{const j=JSON.parse(t);msg=(j.message||j.status||'')+' items:'+(j.items?j.items.length:'-')+' '+(j.items?.[0]?.title||'')}catch{}
+    const tt=(t.match(/<title>([^<]{0,80})/)||[])[1]||'';
+    console.log(`::notice title=diag2 ${n}::HTTP ${r.status} final=${r.url} server=${server} cf-mitigated=${cf} items=${items} first=${first} json=${msg} pageTitle=${tt}`);
+  }catch(e){console.log(`::notice title=diag2 ${n}::ERR ${e.message}`)}
 }
