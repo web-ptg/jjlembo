@@ -15,6 +15,12 @@ saves the latest posts as `posts.json`, and redeploys the site. For an instant r
 publishing: **Actions → Update posts and deploy site → Run workflow**.
 If the feed can't be read, the site falls back to the post list built into the pages.
 
+Substack's Cloudflare protection blocks requests coming from GitHub's servers, so the update
+tries the feed directly and then through the free Jina Reader relay (r.jina.ai). Each run's
+result is shown in the run summary under Actions, for example
+"Loaded 20 posts from the Jina relay. Newest: …". If the relay ever hits its rate limit, create a
+free key at jina.ai and add it as a repository secret named `JINA_API_KEY`.
+
 ## SEO
 Each page has its own title, description, canonical URL, Open Graph/Twitter tags and
 schema.org JSON-LD (Person, ProfilePage, Book, ProfessionalService, WebSite, breadcrumbs).
