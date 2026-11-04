@@ -18,7 +18,8 @@ If the feed can't be read, the site falls back to the post list built into the p
 ## SEO
 Each page has its own title, description, canonical URL, Open Graph/Twitter tags and
 schema.org JSON-LD (Person, ProfilePage, Book, ProfessionalService, WebSite, breadcrumbs).
-`sitemap.xml` and `robots.txt` are included.
+`sitemap.xml`, `robots.txt` and `llms.txt` are included. Crawlers only read robots.txt and llms.txt
+at the root of a domain, so they take effect once a custom domain is set up.
 
 **If you add a custom domain:** replace `https://web-ptg.github.io/jjlembo/` with the new address
-in every page, `sitemap.xml` and `robots.txt`, then add a `CNAME` file containing the domain.
+in every page, `sitemap.xml`, `robots.txt` and `llms.txt`, then add a `CNAME` file containing the domain.
