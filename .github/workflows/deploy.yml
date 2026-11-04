@@ -1,0 +1,40 @@
+name: Update posts and deploy site
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 */6 * * *"   # every 6 hours
+  workflow_dispatch:          # "Run workflow" button for an instant refresh
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build site folder
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          [ -f CNAME ] && cp CNAME _site/ || true
+          touch _site/.nojekyll
+      - name: Pull latest Substack posts
+        run: node scripts/build-posts.mjs _site/posts.json
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
