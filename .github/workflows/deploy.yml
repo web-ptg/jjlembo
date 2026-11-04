@@ -30,10 +30,10 @@ jobs:
           cp -r index.html 404.html robots.txt sitemap.xml llms.txt assets writing navitas contact _site/
           [ -f CNAME ] && cp CNAME _site/ || true
           touch _site/.nojekyll
-      - name: Diagnose feed access
-        run: node scripts/diag.mjs
       - name: Pull latest Substack posts
         run: node scripts/build-posts.mjs _site/posts.json
+        env:
+          JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
