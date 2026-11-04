@@ -16,7 +16,7 @@
 :root[data-theme="dark"]{color-scheme:dark;--bg:#0B1524;--stone:#111E31;--ink:#E8EBEF;--muted:#A1ABB8;--line:#24344B;--gold-ink:#D2AE63}
 html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px)}
 *,*::before,*::after{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden;overflow-x:clip;margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--navy)}
 img{max-width:100%;height:auto;display:block}a{color:inherit}
 .wrap{width:var(--wrap);margin-inline:auto}
@@ -97,11 +97,15 @@ body[data-on="home"] .top:not(.scrolled):not(.menu-open) .menu-btn{color:#0D1A2D
 
 .stone{background:var(--stone)}
 .book-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:88px;align-items:center}
-.book-cover{display:flex;justify-content:center;position:relative;isolation:isolate}
-.book-cover::before{content:"";position:absolute;left:50%;top:50%;width:min(760px,150%);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(240,200,105,.95) 0%,rgba(214,172,80,.75) 28%,rgba(198,160,82,.35) 48%,rgba(198,160,82,0) 68%);filter:blur(24px);z-index:-1;pointer-events:none}
-@media (prefers-reduced-motion:no-preference){.book-cover::before{animation:bookglow 3.6s ease-in-out infinite}}
+.book-cover{display:flex;justify-content:center;position:relative;z-index:1}
+#book{overflow-x:clip}
+.book-glow{position:relative;display:block;width:100%;max-width:420px;isolation:isolate}
+.book-glow::before{content:"";position:absolute;left:50%;top:50%;width:200%;height:160%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(240,200,105,.95) 0%,rgba(214,172,80,.72) 38%,rgba(198,160,82,.3) 66%,rgba(198,160,82,0) 100%);filter:blur(20px);z-index:-1;pointer-events:none}
+@media (max-width:900px){.book-glow::before{width:150%;height:135%}}
+
+@media (prefers-reduced-motion:no-preference){.book-glow::before{animation:bookglow 3.6s ease-in-out infinite}}
 @keyframes bookglow{0%,100%{opacity:.7;transform:translate(-50%,-50%) scale(.94)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.05)}}
-.book-cover img{position:relative;width:100%;max-width:420px;margin:auto;filter:drop-shadow(0 30px 40px rgba(13,26,45,.28))}
+.book-glow img{position:relative;width:100%;margin:auto;filter:drop-shadow(0 30px 40px rgba(13,26,45,.28))}
 .book-sum{font-family:var(--serif);font-size:21px;line-height:1.5;margin:22px 0 16px;max-width:46ch}
 .book-body{color:var(--muted);max-width:58ch;margin:0}
 .excerpt{margin:36px 0;padding-top:24px;border-top:1px solid var(--line);max-width:58ch}
@@ -581,7 +585,7 @@ footer small{display:block;padding-top:24px;font-size:13.5px}
         <blockquote class="excerpt"><p>“Consulting is a vocation that many enter into in the latter part of their career. It embodies the culmination of experiences and development of an expertise over time that allows one to offer their support as a professional advisor and obtain payment for services rendered.”</p><footer>From the book</footer></blockquote>
         <div class="actions"><a class="btn btn-ink" href="#reviews">Read the reviews</a><a class="btn btn-plain" href="https://john-lembo.kit.com/512f669cc6" target="_blank" rel="noopener">Get 10 more tips</a></div>
       </div>
-      <div class="book-cover"><img src="assets/so-you-want-to-be-a-consultant-book.webp" width="700" height="965" loading="lazy" decoding="async" alt="So You Want to Be a Consultant, book cover"></div>
+      <div class="book-cover"><span class="book-glow"><img src="assets/so-you-want-to-be-a-consultant-book.webp" width="700" height="965" loading="lazy" decoding="async" alt="So You Want to Be a Consultant, book cover"></span></div>
     </div>
   </section>
 
