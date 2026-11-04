@@ -1,20 +1,14 @@
-const UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36";
-const tests=[
- ["other substack: astralcodexten","https://astralcodexten.substack.com/feed"],
- ["other substack: platformer","https://www.platformer.news/feed"],
- ["john home page","https://johnjlembo.substack.com/"],
- ["john feed","https://johnjlembo.substack.com/feed"],
- ["rss2json msg",`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent("https://johnjlembo.substack.com/feed")}`],
- ["rss2json other",`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent("https://astralcodexten.substack.com/feed")}`],
- ["jina reader","https://r.jina.ai/https://johnjlembo.substack.com/feed"],
+const variants=[
+ ["jina default",{}],
+ ["jina html",{"X-Return-Format":"html"}],
+ ["jina text",{"X-Return-Format":"text"}],
 ];
-for(const [n,u] of tests){
-  try{const r=await fetch(u,{headers:{"User-Agent":UA},redirect:"follow"});const t=await r.text();
-    const items=(t.match(/<item>/g)||[]).length;
-    const first=(t.match(/<item>[\s\S]*?<title>(?:<!\[CDATA\[)?([^<\]]*)/)||[])[1]||'';
-    const server=r.headers.get('server')||'', cf=r.headers.get('cf-mitigated')||'';
-    let msg='';try{const j=JSON.parse(t);msg=(j.message||j.status||'')+' items:'+(j.items?j.items.length:'-')+' '+(j.items?.[0]?.title||'')}catch{}
-    const tt=(t.match(/<title>([^<]{0,80})/)||[])[1]||'';
-    console.log(`::notice title=diag2 ${n}::HTTP ${r.status} final=${r.url} server=${server} cf-mitigated=${cf} items=${items} first=${first} json=${msg} pageTitle=${tt}`);
-  }catch(e){console.log(`::notice title=diag2 ${n}::ERR ${e.message}`)}
+for(const [n,h] of variants){
+  try{const r=await fetch("https://r.jina.ai/https://johnjlembo.substack.com/feed",{headers:h});const t=await r.text();
+    const items=(t.match(/<item>|&lt;item&gt;/g)||[]).length;
+    const titles=[...t.matchAll(/<title>(?:<!\[CDATA\[)?([^<\]]{3,90})/g)].slice(0,4).map(m=>m[1]);
+    console.log(`::notice title=diag3 ${n}::HTTP ${r.status} len=${t.length} items=${items} titles=${JSON.stringify(titles)} start=${JSON.stringify(t.slice(0,260))}`);
+  }catch(e){console.log(`::notice title=diag3 ${n}::ERR ${e.message}`)}
 }
+try{const r=await fetch("https://r.jina.ai/https://johnjlembo.substack.com/archive?sort=new");const t=await r.text();
+ console.log(`::notice title=diag3 jina archive page::HTTP ${r.status} len=${t.length} start=${JSON.stringify(t.slice(0,600))}`);}catch(e){}
