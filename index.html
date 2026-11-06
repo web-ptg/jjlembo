@@ -5,9 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>John J. Lembo — Author, Consultant and Solution Navigator</title>
 <meta name="description" content="John J. Lembo helps people understand the terrain, sort through the noise, and find a practical path forward. Author of So You Want to Be a Consultant.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/source-serif-4.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Archivo";src:url("assets/fonts/archivo.woff2") format("woff2");font-weight:400 800;font-stretch:75% 100%;font-style:normal;font-display:swap}
+@font-face{font-family:"Source Serif 4";src:url("assets/fonts/source-serif-4.woff2") format("woff2");font-weight:400 500;font-style:normal;font-display:swap}
+@font-face{font-family:"Source Serif 4";src:url("assets/fonts/source-serif-4-italic.woff2") format("woff2");font-weight:400;font-style:italic;font-display:swap}
+</style>
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light;
 --navy:#0D1A2D;--navy-2:#13253D;--gold:#C6A052;--gold-ink:#8A6A24;--bg:#FFFFFF;--stone:#EEF0F2;--ink:#121A24;--muted:#56606C;--line:#D7DBE0;--on-navy:#F3F4F6;--on-navy-muted:#A9B3C1;
@@ -678,7 +682,8 @@ function renderPosts(list){
   var $c=document.getElementById('count');if($c)$c.textContent=list.length;
 }
 renderPosts(posts.map(norm));
-if(document.getElementById('recent')||document.getElementById('all'))fetch('posts.json',{cache:'no-cache'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+function lateFetch(u,o){return new Promise(function(res){function go(){setTimeout(function(){res(fetch(u,o))},0)}if(document.readyState==='complete')go();else window.addEventListener('load',go)})}
+if(document.getElementById('recent')||document.getElementById('all'))lateFetch('posts.json',{cache:'no-cache'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
   if(d&&Array.isArray(d.posts)&&d.posts.length)renderPosts(d.posts);
 }).catch(function(){});
 
