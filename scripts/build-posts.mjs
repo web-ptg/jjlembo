@@ -8,7 +8,7 @@ import { writeFileSync } from "node:fs";
 const PUB = "https://johnjlembo.substack.com";
 const OUT = process.argv[2] || "posts.json";
 const HEADERS = {
-  "User-Agent": "Mozilla/5.0 (compatible; johnjlembo-site/1.1; +https://web-ptg.github.io/jjlembo/)",
+  "User-Agent": "Mozilla/5.0 (compatible; johnjlembo-site/1.1; +https://johnjlembo.com/)",
   "Accept": "application/rss+xml, application/xml, application/json;q=0.9, */*;q=0.8",
 };
 const note = (lvl, msg) => console.log(`::${lvl} title=Substack posts::${msg}`);

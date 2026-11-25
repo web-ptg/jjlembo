@@ -1,6 +1,6 @@
 # John J. Lembo website
 
-Live at https://web-ptg.github.io/jjlembo/
+Live at https://johnjlembo.com/
 
 ## Pages
 - `index.html` — Home
@@ -27,5 +27,5 @@ schema.org JSON-LD (Person, ProfilePage, Book, ProfessionalService, WebSite, bre
 `sitemap.xml`, `robots.txt` and `llms.txt` are included. Crawlers only read robots.txt and llms.txt
 at the root of a domain, so they take effect once a custom domain is set up.
 
-**If you add a custom domain:** replace `https://web-ptg.github.io/jjlembo/` with the new address
+**If you add a custom domain:** replace `https://johnjlembo.com/` with the new address
 in every page, `sitemap.xml`, `robots.txt` and `llms.txt`, then add a `CNAME` file containing the domain.

@@ -6,14 +6,15 @@ John helps people understand the terrain, sort through the noise, and find a pra
 
 ## Pages
 
-- [Home](https://web-ptg.github.io/jjlembo/): About John, his book, recent writing and The Navitas Group
-- [Writing](https://web-ptg.github.io/jjlembo/writing/): Essays from The Solution Navigator on consulting, leadership, AI, and making things simple
-- [The Navitas Group](https://web-ptg.github.io/jjlembo/navitas/): Executive-level strategy for the complex built environment; services, methodology and philosophy
-- [Contact](https://web-ptg.github.io/jjlembo/contact/): Email and phone for John J. Lembo
+- [Home](https://johnjlembo.com/): About John, his book, recent writing and The Navitas Group
+- [Writing](https://johnjlembo.com/writing/): Essays from The Solution Navigator on consulting, leadership, AI, and making things simple
+- [The Navitas Group](https://johnjlembo.com/navitas/): Executive-level strategy for the complex built environment; services, methodology and philosophy
+- [Contact](https://johnjlembo.com/contact/): Email and phone for John J. Lembo
 
 ## The book
 
-- [So You Want to Be a Consultant](https://web-ptg.github.io/jjlembo/#book): A clear-eyed, experience-driven guide to what consulting really is, beyond the title, the hype, or the misconceptions. Subtitle: Hard Truths, Real Tools and the no-BS Road to Consulting Success
+- [So You Want to Be a Consultant](https://johnjlembo.com/#book): A clear-eyed, experience-driven guide to what consulting really is, beyond the title, the hype, or the misconceptions. Subtitle: Hard Truths, Real Tools and the no-BS Road to Consulting Success
+- [Buy on Amazon](https://www.amazon.com/dp/1997775662): Hardcover, ISBN 9781997775669
 - [Ten more tips](https://john-lembo.kit.com/512f669cc6): Ten more tips and strategies for becoming a consultant that aren't in the book
 
 ## The Navitas Group
